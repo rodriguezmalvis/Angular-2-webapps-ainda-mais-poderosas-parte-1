@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FotoComponent } from '../foto/foto.component';
-import { Http, Headers } from '@angular/http'
+import { Http, Headers } from '@angular/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -12,31 +12,36 @@ export class CadastroComponent {
 
     foto: FotoComponent = new FotoComponent();
     http: Http;
-    meuForm: FormGroup
+    meuForm: FormGroup;
 
-    constructor(http: Http, fb: FormBuilder){
+    constructor(http: Http, fb: FormBuilder) {
+
         this.http = http;
+        
         this.meuForm = fb.group({
-            titulo: ['',Validators.compose([
-                Validators.required, Validators.minLength(4)
-            ])],
-            url: ['',Validators.required],
-            descricao: ['']
+            titulo: ['', Validators.compose(
+                [Validators.required, Validators.minLength(4)]
+            )],
+            url: ['', Validators.required],
+            descricao: [''],
         });
     }
 
-    cadastrar(event){
+    cadastrar(event) {
+        event.preventDefault();
+        console.log(this.foto);
 
-        event.preventDefault()
-
+        // cria uma instância de Headers
         let headers = new Headers();
-        headers.append('Content-Type','application/json')
-        this.http.post('v1/fotos',JSON.stringify(this.foto),{headers: headers})
-        .subscribe( () => {
-            this.foto = new FotoComponent();
-            console.log("Foto inserida com sucesso")
-        });
+        // Adiciona o tipo de conteúdo application/json 
+        headers.append('Content-Type', 'application/json');
 
+        this.http.post('v1/fotos', JSON.stringify(this.foto), { headers: headers })
+            .subscribe(() => {
+                this.foto = new FotoComponent();
+                console.log('Foto salva com sucesso');
+            }, erro => {
+                console.log(erro);
+            });
     }
-
 }

@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FotoModule } from './foto/foto.module';
 import { PainelModule } from './painel/painel.module';
 import { routing } from './app.routes';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports:      [ 

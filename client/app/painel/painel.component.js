@@ -8,27 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var PainelComponent = /** @class */ (function () {
+var core_1 = require('@angular/core');
+var PainelComponent = (function () {
     function PainelComponent() {
     }
     PainelComponent.prototype.ngOnInit = function () {
-        this.titulo =
-            this.titulo.length > 7
-                ? this.titulo.substr(0, 7) + '...'
-                : this.titulo;
+        this.titulo = this.titulo.length > 7 ?
+            this.titulo.substr(0, 7) + '...' :
+            this.titulo;
     };
     __decorate([
-        core_1.Input(),
-        __metadata("design:type", String)
+        core_1.Input(), 
+        __metadata('design:type', String)
     ], PainelComponent.prototype, "titulo", void 0);
     PainelComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'painel',
             templateUrl: './painel.component.html'
-        })
+        }), 
+        __metadata('design:paramtypes', [])
     ], PainelComponent);
     return PainelComponent;
 }());

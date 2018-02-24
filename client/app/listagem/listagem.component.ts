@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { FotoComponent } from '../foto/foto.component';
 
 @Component({
     moduleId: module.id,
@@ -9,7 +8,7 @@ import { FotoComponent } from '../foto/foto.component';
 })
 export class ListagemComponent { 
 
-    fotos: FotoComponent[] = [];
+    fotos: Object[] = [];
 
     constructor(http: Http) {
 
