@@ -10,12 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var foto_component_1 = require('../foto/foto.component');
-var http_1 = require('@angular/http');
 var forms_1 = require('@angular/forms');
+var foto_service_1 = require('../foto/foto.service');
+var router_1 = require('@angular/router');
 var CadastroComponent = (function () {
-    function CadastroComponent(http, fb) {
+    function CadastroComponent(fb, service, route, router) {
+        var _this = this;
+        this.service = service;
+        this.router = router;
         this.foto = new foto_component_1.FotoComponent();
-        this.http = http;
+        this.mensagem = '';
+        route.params.subscribe(function (params) {
+            var id = params['id'];
+            if (id) {
+                _this.service.buscaPorId(id)
+                    .subscribe(function (foto) { return _this.foto = foto; }, function (erro) { return console.log(erro); });
+            }
+        });
         this.meuForm = fb.group({
             titulo: ['', forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(4)])],
             url: ['', forms_1.Validators.required],
@@ -26,14 +37,12 @@ var CadastroComponent = (function () {
         var _this = this;
         event.preventDefault();
         console.log(this.foto);
-        // cria uma instância de Headers
-        var headers = new http_1.Headers();
-        // Adiciona o tipo de conteúdo application/json 
-        headers.append('Content-Type', 'application/json');
-        this.http.post('v1/fotos', JSON.stringify(this.foto), { headers: headers })
-            .subscribe(function () {
+        this.service.cadastra(this.foto)
+            .subscribe(function (res) {
+            _this.mensagem = res.mensagem;
             _this.foto = new foto_component_1.FotoComponent();
-            console.log('Foto salva com sucesso');
+            if (!res.inclusao)
+                _this.router.navigate(['']);
         }, function (erro) {
             console.log(erro);
         });
@@ -44,7 +53,7 @@ var CadastroComponent = (function () {
             selector: 'cadastro',
             templateUrl: './cadastro.component.html'
         }), 
-        __metadata('design:paramtypes', [http_1.Http, forms_1.FormBuilder])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, foto_service_1.FotoService, router_1.ActivatedRoute, router_1.Router])
     ], CadastroComponent);
     return CadastroComponent;
 }());

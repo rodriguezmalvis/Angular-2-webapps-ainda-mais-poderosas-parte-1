@@ -9,22 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
+var foto_service_1 = require('../foto/foto.service');
 var ListagemComponent = (function () {
-    function ListagemComponent(http) {
+    function ListagemComponent(service) {
         var _this = this;
+        this.service = service;
         this.fotos = [];
-        http.get('v1/fotos')
-            .map(function (res) { return res.json(); })
+        this.mensagem = "";
+        service.lista()
             .subscribe(function (fotos) { return _this.fotos = fotos; }, function (erro) { return console.log(erro); });
     }
+    ListagemComponent.prototype.remove = function (foto) {
+        var _this = this;
+        this.service.remove(foto)
+            .subscribe(function () {
+            console.log('Foto removida cokm sucesso');
+            _this.fotos = _this.fotos.filter(function (f) { return f._id != foto._id; });
+            _this.mensagem = "Foto removida com sucesso";
+        }, function (erro) {
+            console.log(erro);
+            _this.mensagem = "Não foi possivekl remover a Foto";
+        });
+    };
     ListagemComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'listagem',
             templateUrl: './listagem.component.html'
         }), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [foto_service_1.FotoService])
     ], ListagemComponent);
     return ListagemComponent;
 }());
